@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1060959018771",
+    "project_id": "flutt-clothes-shop",
+    "storage_bucket": "flutt-clothes-shop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060959018771:android:a55808f0cd1cbf6b4b44e6",
+        "android_client_info": {
+          "package_name": "com.example.flutt_clothes_shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1060959018771-p89dh4mso28smv1fblhjhqjkinha3ncf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutt_clothes_shop",
+            "certificate_hash": "5eddee2b643eb185fc7036f8ce66ebf446de433f"
+          }
+        },
+        {
+          "client_id": "1060959018771-9iqvk9uiuddcq7ieofkltqc9hdl05sd8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6hQLTDw5R9w_G-J8yR1wR-itxqyd6fF8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1060959018771-9iqvk9uiuddcq7ieofkltqc9hdl05sd8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1060959018771-ea68jqcpvtldj3rm0kfhhe25lb48imv0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fluttClothesShop"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
