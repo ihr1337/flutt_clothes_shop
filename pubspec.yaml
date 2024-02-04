@@ -37,17 +37,22 @@ dependencies:
   #Provider for state management
   provider: ^6.1.1
   #Firebase packages for authentication, database and storage
-  firebase_auth: ^4.17.0
   firebase_core: ^2.25.1
+  firebase_auth: ^4.17.0
   cloud_firestore: ^4.4.4
   firebase_storage: ^11.0.10
   #Image picker for image upload and selection
   image_picker: ^0.8.6
   #Go router for navigation in the app
   go_router: ^13.1.0
+  #Customizable page indicator
   smooth_page_indicator: ^1.1.0
+  #Form builder and validator
   flutter_form_builder: ^9.2.1
   form_builder_validators: ^9.1.0
+  #Toast messages package for displaying info for user
+  fluttertoast: ^8.2.4
+  google_sign_in: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -87,12 +92,14 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Product Sans
+    - family: Montserrat
       fonts:
-        - asset: assets/fonts/product_sans/Product-Sans-Regular.ttf
-        - asset: assets/fonts/product_sans/Product-Sans-Bold.ttf
-        - asset: assets/fonts/product_sans/Product-Sans-Italic.ttf
-        - asset: assets/fonts/product_sans/Product-Sans-Bold-Italic.ttf
+        - asset: assets/fonts/montserrat/Montserrat-Bold.ttf
+        - asset: assets/fonts/montserrat/Montserrat-ExtraLight.ttf
+        - asset: assets/fonts/montserrat/Montserrat-Light.ttf
+        - asset: assets/fonts/montserrat/Montserrat-Medium.ttf
+        - asset: assets/fonts/montserrat/Montserrat-Regular.ttf
+        - asset: assets/fonts/montserrat/Montserrat-Thin.ttf
 
   #   - family: Schyler
   #     fonts:
