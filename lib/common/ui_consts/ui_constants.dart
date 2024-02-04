@@ -11,7 +11,7 @@ class UiConstants {
         borderSide: BorderSide(color: AppColors.lightGray2)),
     enabledBorder: UnderlineInputBorder(
         borderSide: BorderSide(color: AppColors.lightGray2)),
-    hintStyle: AppTextStyles.black14,
+    hintStyle: AppTextStyles.black14w400,
   );
 
   static ButtonStyle textButtonStyle = ButtonStyle(
