@@ -5,17 +5,16 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutt_clothes_shop/common/buttons/circular_social_media_button.dart';
 import 'package:flutt_clothes_shop/common/buttons/custom_round_button.dart';
-import 'package:flutt_clothes_shop/common/functionality/toast_type_def.dart';
 import 'package:flutt_clothes_shop/common/ui_consts/app_text_styles.dart';
 import 'package:flutt_clothes_shop/common/ui_consts/ui_constants.dart';
 import 'package:flutt_clothes_shop/common/widgets/appbar.dart';
 import 'package:flutt_clothes_shop/common/widgets/loader.dart';
 import 'package:flutt_clothes_shop/common/widgets/toast.dart';
+import 'package:flutt_clothes_shop/pages/authentication/util/auth.dart';
 import 'package:flutt_clothes_shop/providers/loader_provider.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -29,7 +28,6 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormBuilderState>();
-  final _auth = FirebaseAuth.instance;
 
   late bool obscurePassword;
   late bool obscureConfirmPassword;
@@ -52,35 +50,19 @@ class _SignUpPageState extends State<SignUpPage> {
     });
   }
 
-  Future<void> _signUp(
-    String? name,
-    String? email,
-    String? password,
-  ) async {
+  Future<void> _signUp(String? name, String? email, String? password) async {
     try {
       context.read<LoaderProvider>().enableLoader();
 
-      await _auth.createUserWithEmailAndPassword(
-        email: email!,
-        password: password!,
+      await Auth.signUpWithEmailAndPassword(
+        name,
+        email,
+        password,
       );
-      await _auth.currentUser?.updateDisplayName(name);
 
-      await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
       if (mounted) context.go('/home');
     } on FirebaseAuthException catch (e) {
-      fToast.showToast(
-        child: CommonToast(
-          toastText: e.message.toString(),
-          toastType: ToastTypeDef.defineToastType(e),
-        ),
-        gravity: ToastGravity.TOP,
-        toastDuration: const Duration(seconds: 2),
-        isDismissable: true,
-      );
+      ToastClass.showToast(e);
     } finally {
       if (mounted) context.read<LoaderProvider>().disableLoader();
     }
@@ -90,29 +72,11 @@ class _SignUpPageState extends State<SignUpPage> {
     try {
       if (mounted) context.read<LoaderProvider>().enableLoader();
 
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      await Auth.authenticateWithGoogle();
 
       if (mounted) context.go('/home');
     } on FirebaseAuthException catch (e) {
-      fToast.showToast(
-        child: CommonToast(
-          toastText: e.message.toString(),
-          toastType: ToastTypeDef.defineToastType(e),
-        ),
-        gravity: ToastGravity.TOP,
-        toastDuration: const Duration(seconds: 2),
-        isDismissable: true,
-      );
+      ToastClass.showToast(e);
     } finally {
       if (mounted) context.read<LoaderProvider>().disableLoader();
     }
@@ -259,7 +223,12 @@ class _SignUpPageState extends State<SignUpPage> {
                             decoration: TextDecoration.underline,
                           ),
                         ),
-                        onPressed: () => context.go('/login'),
+                        onPressed: () => context.go(
+                          '/login',
+                          extra: [
+                            _formKey.currentState?.fields['email']?.value
+                          ],
+                        ),
                       )
                     ],
                   )

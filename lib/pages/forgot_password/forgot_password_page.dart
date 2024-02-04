@@ -8,7 +8,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutt_clothes_shop/common/buttons/custom_round_button.dart';
-import 'package:flutt_clothes_shop/common/functionality/toast_type_def.dart';
 import 'package:flutt_clothes_shop/common/ui_consts/app_text_styles.dart';
 import 'package:flutt_clothes_shop/common/ui_consts/ui_constants.dart';
 import 'package:flutt_clothes_shop/common/widgets/appbar.dart';
@@ -46,20 +45,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
       if (mounted) {
         showModalBottomSheet(
-            showDragHandle: true,
-            context: context,
-            builder: (context) => const ResetPasswordEmailSent());
+          showDragHandle: true,
+          context: context,
+          builder: (context) => const ResetPasswordEmailSent(),
+        );
       }
     } on FirebaseAuthException catch (e) {
-      return fToast.showToast(
-        child: CommonToast(
-          toastText: e.message.toString(),
-          toastType: ToastTypeDef.defineToastType(e),
-        ),
-        gravity: ToastGravity.TOP,
-        toastDuration: const Duration(seconds: 2),
-        isDismissable: true,
-      );
+      ToastClass.showToast(e);
     } finally {
       if (mounted) context.read<LoaderProvider>().disableLoader();
     }

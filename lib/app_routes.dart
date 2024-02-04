@@ -20,7 +20,10 @@ class Routes {
       ),
       GoRoute(
         path: '/login',
-        builder: (context, state) => const LoginPage(),
+        builder: (context, state) {
+          final emailInitValue = state.extra as List<dynamic>?;
+          return LoginPage(emailInitValue: emailInitValue?[0]);
+        },
       ),
       GoRoute(
         path: '/sign_up',
