@@ -32,14 +32,14 @@ class GettingStartedPage extends StatelessWidget {
             bottom: 260,
             child: Text(
               'Welcome to FluttShop!',
-              style: AppTextStyles.white25,
+              style: AppTextStyles.whiteBold25,
             ),
           ),
           const Positioned(
             bottom: 220,
             child: Text(
               'The home for a fashionista!',
-              style: AppTextStyles.white16,
+              style: AppTextStyles.whiteBold16,
             ),
           ),
           Positioned(
