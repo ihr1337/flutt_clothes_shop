@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 import 'package:flutt_clothes_shop/app_routes.dart';
 import 'package:flutt_clothes_shop/common/ui_consts/app_colors.dart';
+import 'package:flutt_clothes_shop/firebase_options.dart';
+import 'package:flutt_clothes_shop/providers/loader_provider.dart';
+import 'package:flutt_clothes_shop/providers/user_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
-  await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(
-    const FluttClothesShopApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LoaderProvider(),
+        ),
+      ],
+      child: const FluttClothesShopApp(),
+    ),
   );
 }
 
@@ -25,7 +37,8 @@ class FluttClothesShopApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'FluttShop',
       theme: ThemeData(
-        fontFamily: 'Product Sans',
+        fontFamily: 'Montserrat',
+        scaffoldBackgroundColor: AppColors.white,
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: AppColors.black,
           selectionColor: AppColors.black.withOpacity(0.2),
@@ -33,6 +46,7 @@ class FluttClothesShopApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       routerConfig: Routes.routerConfig,
+      builder: FToastBuilder(),
     );
   }
 }

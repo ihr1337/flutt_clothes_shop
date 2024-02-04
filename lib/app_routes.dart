@@ -1,9 +1,11 @@
-import 'package:flutt_clothes_shop/pages/intro_to_authentication/auth_pages/sign_up_page.dart';
+import 'package:flutt_clothes_shop/pages/authentication/sign_up_page.dart';
+import 'package:flutt_clothes_shop/pages/forgot_password/forgot_password_email_step.dart';
+import 'package:flutt_clothes_shop/pages/home/home_page.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:flutt_clothes_shop/pages/intro_to_authentication/auth_pages/login_page.dart';
-import 'package:flutt_clothes_shop/pages/intro_to_authentication/getting_started_page.dart';
-import 'package:flutt_clothes_shop/pages/intro_to_authentication/intro_page.dart';
+import 'package:flutt_clothes_shop/pages/authentication/login_page.dart';
+import 'package:flutt_clothes_shop/pages/_intro/getting_started_page.dart';
+import 'package:flutt_clothes_shop/pages/_intro/intro_page.dart';
 
 class Routes {
   static final routerConfig = GoRouter(
@@ -22,7 +24,21 @@ class Routes {
       ),
       GoRoute(
         path: '/sign_up',
-        builder: (context, state) => const SignUpPage(),
+        builder: (context, state) {
+          final emailInitValue = state.extra as List<dynamic>?;
+          return SignUpPage(emailInitValue: emailInitValue?[0]);
+        },
+      ),
+      GoRoute(
+        path: '/forgot_password_email_step',
+        builder: (context, state) {
+          final emailInitValue = state.extra as List<dynamic>?;
+          return ForgotPasswordEmailStep(emailInitValue: emailInitValue?[0]);
+        },
+      ),
+      GoRoute(
+        path: '/home',
+        builder: (context, state) => const HomePage(),
       ),
     ],
   );
