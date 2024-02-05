@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:flutt_clothes_shop/app_routes.dart';
 import 'package:flutt_clothes_shop/common/ui_consts/app_colors.dart';
 import 'package:flutt_clothes_shop/firebase_options.dart';
+import 'package:flutt_clothes_shop/providers/bottombar_provider.dart';
 import 'package:flutt_clothes_shop/providers/loader_provider.dart';
-import 'package:flutt_clothes_shop/providers/user_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,10 +18,10 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => UserProvider(),
+          create: (_) => LoaderProvider(),
         ),
         ChangeNotifierProvider(
-          create: (_) => LoaderProvider(),
+          create: (_) => BottomBarProvider(),
         ),
       ],
       child: const FluttClothesShopApp(),
