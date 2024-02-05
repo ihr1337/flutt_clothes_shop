@@ -50,29 +50,26 @@ class _SignUpPageState extends State<SignUpPage> {
     });
   }
 
-  Future<void> _signUp(String? name, String? email, String? password) async {
+  Future<void> _signUp({
+    String? name,
+    String? email,
+    String? password,
+    authProvider = AuthProviderEnum.email,
+  }) async {
     try {
       context.read<LoaderProvider>().enableLoader();
-
-      await Auth.signUpWithEmailAndPassword(
-        name,
-        email,
-        password,
-      );
-
-      if (mounted) context.go('/home');
-    } on FirebaseAuthException catch (e) {
-      ToastClass.showToast(e);
-    } finally {
-      if (mounted) context.read<LoaderProvider>().disableLoader();
-    }
-  }
-
-  Future<void> _signUpWithGoogle() async {
-    try {
-      if (mounted) context.read<LoaderProvider>().enableLoader();
-
-      await Auth.authenticateWithGoogle();
+      switch (authProvider) {
+        case AuthProviderEnum.email:
+          {
+            await Auth.signUpWithEmailAndPassword(name, email, password);
+            break;
+          }
+        case AuthProviderEnum.google:
+          {
+            await Auth.authenticateWithGoogle();
+            break;
+          }
+      }
 
       if (mounted) context.go('/home');
     } on FirebaseAuthException catch (e) {
@@ -193,9 +190,10 @@ class _SignUpPageState extends State<SignUpPage> {
                       if (!_formKey.currentState!.isValid) return;
 
                       await _signUp(
-                        _formKey.currentState?.fields['name']?.value,
-                        _formKey.currentState?.fields['email']?.value,
-                        _formKey.currentState?.fields['password']?.value,
+                        name: _formKey.currentState?.fields['name']?.value,
+                        email: _formKey.currentState?.fields['email']?.value,
+                        password:
+                            _formKey.currentState?.fields['password']?.value,
                       );
                     },
                   ),
@@ -205,7 +203,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     style: AppTextStyles.gray12,
                   ),
                   const SizedBox(height: 30),
-                  CircularSocialMediaButton(onTap: _signUpWithGoogle),
+                  CircularSocialMediaButton(
+                      onTap: () =>
+                          _signUp(authProvider: AuthProviderEnum.google)),
                   const SizedBox(height: 45),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

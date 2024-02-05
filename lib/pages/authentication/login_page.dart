@@ -45,26 +45,26 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  //TODO refactor this
-  Future<void> _signIn(String email, String password) async {
+  Future<void> _signIn({
+    String? email,
+    String? password,
+    authProvider = AuthProviderEnum.email,
+  }) async {
     try {
       context.read<LoaderProvider>().enableLoader();
 
-      Auth.signInWithEmailAndPassword(email, password);
-    } on FirebaseAuthException catch (e) {
-      ToastClass.showToast(e);
-      rethrow;
-    } finally {
-      if (mounted) context.read<LoaderProvider>().disableLoader();
-    }
-  }
-
-  Future<void> _signInWithGoogle() async {
-    try {
-      if (mounted) context.read<LoaderProvider>().enableLoader();
-
-      await Auth.authenticateWithGoogle();
-
+      switch (authProvider) {
+        case AuthProviderEnum.email:
+          {
+            await Auth.signInWithEmailAndPassword(email!, password!);
+            break;
+          }
+        case AuthProviderEnum.google:
+          {
+            await Auth.authenticateWithGoogle();
+            break;
+          }
+      }
       if (mounted) context.go('/home');
     } on FirebaseAuthException catch (e) {
       ToastClass.showToast(e);
@@ -154,14 +154,13 @@ class _LoginPageState extends State<LoginPage> {
                 CustomRoundButton(
                   text: 'LOG IN',
                   onTap: () async {
-                    _formKey.currentState?.validate();
-                    if (!_formKey.currentState!.isValid) return;
+                    if (!_formKey.currentState!.validate()) return;
 
                     await _signIn(
-                      _formKey.currentState?.fields['email']?.value,
-                      _formKey.currentState?.fields['password']?.value,
+                      email: _formKey.currentState?.fields['email']?.value,
+                      password:
+                          _formKey.currentState?.fields['password']?.value,
                     );
-                    if (mounted) context.go('/home');
                   },
                 ),
                 const SizedBox(height: 30),
@@ -171,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 30),
                 CircularSocialMediaButton(
-                  onTap: _signInWithGoogle,
+                  onTap: () => _signIn(authProvider: AuthProviderEnum.google),
                 ),
                 const Spacer(),
                 Row(

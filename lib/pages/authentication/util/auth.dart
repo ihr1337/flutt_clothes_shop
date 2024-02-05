@@ -1,6 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+enum AuthProviderEnum {
+  email,
+  google,
+}
+
 class Auth {
   static signInWithEmailAndPassword(String email, String password) async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
