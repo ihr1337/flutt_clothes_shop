@@ -7,7 +7,7 @@ import 'package:flutt_clothes_shop/common/buttons/blurred_round_button.dart';
 import 'package:flutt_clothes_shop/common/ui_consts/app_colors.dart';
 import 'package:flutt_clothes_shop/common/ui_consts/app_text_styles.dart';
 import 'package:flutt_clothes_shop/common/widgets/appbar.dart';
-import 'package:flutt_clothes_shop/pages/_intro/_widgets/page_view_item.dart';
+import 'package:flutt_clothes_shop/modules/_introduction/_widgets/page_view_item.dart';
 
 class IntroPage extends StatefulWidget {
   const IntroPage({super.key});

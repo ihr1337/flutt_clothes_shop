@@ -13,7 +13,7 @@ import 'package:flutt_clothes_shop/common/ui_consts/ui_constants.dart';
 import 'package:flutt_clothes_shop/common/widgets/appbar.dart';
 import 'package:flutt_clothes_shop/common/widgets/loader.dart';
 import 'package:flutt_clothes_shop/common/widgets/toast.dart';
-import 'package:flutt_clothes_shop/pages/forgot_password/widgets/reset_password_email_sent.dart';
+import 'package:flutt_clothes_shop/modules/auth/forgot_password/widgets/reset_password_email_sent.dart';
 import 'package:flutt_clothes_shop/providers/loader_provider.dart';
 
 class ForgotPasswordPage extends StatefulWidget {

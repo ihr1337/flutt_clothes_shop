@@ -14,7 +14,7 @@ import 'package:flutt_clothes_shop/common/ui_consts/ui_constants.dart';
 import 'package:flutt_clothes_shop/common/widgets/appbar.dart';
 import 'package:flutt_clothes_shop/common/widgets/loader.dart';
 import 'package:flutt_clothes_shop/common/widgets/toast.dart';
-import 'package:flutt_clothes_shop/pages/authentication/util/auth.dart';
+import 'package:flutt_clothes_shop/modules/auth/authentication/util/auth.dart';
 import 'package:flutt_clothes_shop/providers/loader_provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
             break;
           }
       }
-      if (mounted) context.go('/home');
+      if (mounted) context.go('/tab_base');
     } on FirebaseAuthException catch (e) {
       ToastClass.showToast(e);
     } finally {
