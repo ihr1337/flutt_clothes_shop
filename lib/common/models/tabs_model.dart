@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutt_clothes_shop/modules/main_tabs/discover/discover_page.dart';
 import 'package:flutt_clothes_shop/modules/main_tabs/home/home_page.dart';
 import 'package:flutt_clothes_shop/modules/main_tabs/my_orders/my_orders_page.dart';
-import 'package:flutt_clothes_shop/modules/main_tabs/profile/pages/profile_page.dart';
+import 'package:flutt_clothes_shop/modules/main_tabs/profile/pages/profile_tab.dart';
 
 enum TabsModel {
   home(
@@ -20,7 +20,7 @@ enum TabsModel {
   ),
   profile(
     tabIcon: Icon(Icons.person),
-    tabPage: ProfilePage(),
+    tabPage: ProfileTab(),
   );
 
   final Icon tabIcon;
