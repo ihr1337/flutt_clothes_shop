@@ -1,9 +1,11 @@
 import 'package:flutt_clothes_shop/common/ui_consts/app_colors.dart';
+import 'package:flutt_clothes_shop/common/ui_consts/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String? title;
   final Widget? leading;
   final List<Widget>? actions;
 
@@ -12,6 +14,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   const CommonAppBar({
     super.key,
+    this.title,
     this.leading,
     this.actions,
   }) : preferredSize = const Size.fromHeight(56);
@@ -36,6 +39,12 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 onPressed: () => context.pop(),
               )
+          : null,
+      title: title != null
+          ? Text(
+              title!,
+              style: AppTextStyles.black18bold,
+            )
           : null,
       actions: actions,
     );

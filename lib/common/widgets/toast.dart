@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutt_clothes_shop/common/functionality/toast_type_def.dart';
 import 'package:flutt_clothes_shop/common/ui_consts/app_colors.dart';
 
 class ToastClass {
-  static showToast(FirebaseAuthException e) {
+  static showToast(e) {
     FToast().showToast(
       child: CommonToast(
         toastText: e.message.toString(),
