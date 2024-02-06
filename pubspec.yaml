@@ -44,7 +44,7 @@ dependencies:
   #Google sign in package
   google_sign_in: ^6.2.1
   #Image picker for image upload and selection
-  image_picker: ^0.8.6
+  image_picker: ^1.0.7
   #Go router for navigation in the app
   go_router: ^13.1.0
   #Customizable page indicator
