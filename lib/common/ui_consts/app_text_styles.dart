@@ -7,6 +7,11 @@ class AppTextStyles {
     color: AppColors.gray,
     fontSize: 12,
   );
+  static const gray14w400 = TextStyle(
+    color: AppColors.gray,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+  );
 
   ///Black colors
   static const black12 = TextStyle(
@@ -18,19 +23,29 @@ class AppTextStyles {
     fontSize: 14,
     fontWeight: FontWeight.w400,
   );
+  static const blackBold16 = TextStyle(
+    color: AppColors.black,
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
   static const black17 = TextStyle(
     color: AppColors.black,
     fontSize: 17,
     fontWeight: FontWeight.normal,
   );
-  static const black24 = TextStyle(
+  static const black18bold = TextStyle(
     color: AppColors.black,
-    fontSize: 24,
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
   );
   static const blackBold20 = TextStyle(
     color: AppColors.black,
     fontSize: 20,
     fontWeight: FontWeight.bold,
+  );
+  static const black24 = TextStyle(
+    color: AppColors.black,
+    fontSize: 24,
   );
   static const blackBold24 = TextStyle(
     color: AppColors.black,
