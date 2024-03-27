@@ -11,11 +11,9 @@ class UserInfoWithSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: check why image wouldnt update with stream
     return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
+      stream: FirebaseAuth.instance.userChanges(),
       builder: (context, snapshot) {
-        print('rebuild');
         return Padding(
           padding: const EdgeInsets.fromLTRB(12.0, 32.0, 12.0, 32.0),
           child: Row(
@@ -29,6 +27,7 @@ class UserInfoWithSettings extends StatelessWidget {
                     snapshot.data?.photoURL ?? '',
                     height: 68,
                     width: 68,
+                    fit: BoxFit.fill,
                   ),
                 ),
               ),

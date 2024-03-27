@@ -5,7 +5,7 @@ import 'package:flutt_clothes_shop/modules/main_tabs/home/home_page.dart';
 import 'package:flutt_clothes_shop/modules/main_tabs/my_orders/my_orders_page.dart';
 import 'package:flutt_clothes_shop/modules/main_tabs/profile/pages/profile_tab.dart';
 
-enum TabsModel {
+enum TabsEnum {
   home(
     tabIcon: Icon(Icons.home),
     tabPage: HomePage(),
@@ -26,7 +26,7 @@ enum TabsModel {
   final Icon tabIcon;
   final Widget tabPage;
 
-  const TabsModel({
+  const TabsEnum({
     required this.tabIcon,
     required this.tabPage,
   });

@@ -1,14 +1,14 @@
-import 'package:flutt_clothes_shop/common/models/tabs_model.dart';
+import 'package:flutt_clothes_shop/common/enums/tabs_enum.dart';
 import 'package:flutter/material.dart';
 
 class BottomBarProvider with ChangeNotifier {
   int _index = 0;
 
-  List<TabsModel> tabList = [
-    TabsModel.home,
-    TabsModel.discover,
-    TabsModel.myOrders,
-    TabsModel.profile,
+  List<TabsEnum> tabList = [
+    TabsEnum.home,
+    TabsEnum.discover,
+    TabsEnum.myOrders,
+    TabsEnum.profile,
   ];
 
   int get index => _index;

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutt_clothes_shop/common/ui_consts/app_colors.dart';
 import 'package:flutt_clothes_shop/common/ui_consts/app_text_styles.dart';
 import 'package:flutt_clothes_shop/modules/main_tabs/profile/util/card_position_enum.dart';
-import 'package:flutt_clothes_shop/modules/main_tabs/profile/util/profile_page_options_model.dart';
+import 'package:flutt_clothes_shop/modules/main_tabs/profile/util/profile_page_options_enum.dart';
 
 class ProfileTabOptionCard extends StatelessWidget {
-  final ProfilePageOptionModel cardProps;
+  final ProfileTabOptions cardProps;
   final VoidCallback onCardTap;
   final double cardHeight;
   final CardPosition cardPosition;

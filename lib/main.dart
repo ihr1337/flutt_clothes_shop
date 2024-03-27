@@ -4,11 +4,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
-import 'package:flutt_clothes_shop/routes/app_routes.dart';
 import 'package:flutt_clothes_shop/common/ui_consts/app_colors.dart';
 import 'package:flutt_clothes_shop/firebase_options.dart';
 import 'package:flutt_clothes_shop/providers/bottombar_provider.dart';
 import 'package:flutt_clothes_shop/providers/loader_provider.dart';
+import 'package:flutt_clothes_shop/providers/profile_provider.dart';
+import 'package:flutt_clothes_shop/routes/app_routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => BottomBarProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProfileProvider(),
         ),
       ],
       child: const FluttClothesShopApp(),

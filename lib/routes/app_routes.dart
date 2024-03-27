@@ -9,7 +9,7 @@ import 'package:flutt_clothes_shop/modules/main_tabs/_tab_base/tab_base.dart';
 import 'package:flutt_clothes_shop/modules/main_tabs/discover/discover_page.dart';
 import 'package:flutt_clothes_shop/modules/main_tabs/home/home_page.dart';
 import 'package:flutt_clothes_shop/modules/main_tabs/my_orders/my_orders_page.dart';
-import 'package:flutt_clothes_shop/routes/profile_router.dart';
+import 'package:flutt_clothes_shop/routes/profile_routes.dart';
 
 class Routes {
   static final routerConfig = GoRouter(

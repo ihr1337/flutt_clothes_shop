@@ -1,15 +1,14 @@
-import 'dart:io';
+import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutt_clothes_shop/common/ui_consts/app_colors.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:provider/provider.dart';
+
+import 'package:flutt_clothes_shop/common/buttons/custom_round_button.dart';
 import 'package:flutt_clothes_shop/common/widgets/appbar.dart';
 import 'package:flutt_clothes_shop/common/widgets/loader.dart';
-import 'package:flutt_clothes_shop/common/widgets/toast.dart';
-import 'package:flutt_clothes_shop/providers/loader_provider.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
+import 'package:flutt_clothes_shop/modules/main_tabs/profile/widgets/change_user_avatar_card.dart';
+import 'package:flutt_clothes_shop/providers/profile_provider.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -19,93 +18,90 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  final _formKey = GlobalKey<FormBuilderState>();
+
   String? photoUrl = FirebaseAuth.instance.currentUser!.photoURL;
-
-  Future<void> updateProfilePicture() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      final ref = FirebaseStorage.instance.ref().child(
-          'profile_pictures/${FirebaseAuth.instance.currentUser!.uid}/${pickedFile.name}');
-
-      try {
-        if (context.mounted) context.read<LoaderProvider>().enableLoader();
-
-        await ref.putFile(File(pickedFile.path));
-
-        final url = await ref.getDownloadURL();
-
-        await FirebaseAuth.instance.currentUser!.updatePhotoURL(url);
-      } on FirebaseException catch (e) {
-        ToastClass.showToast(e);
-      } finally {
-        await FirebaseAuth.instance.currentUser?.reload();
-        setState(() {});
-        if (context.mounted) context.read<LoaderProvider>().disableLoader();
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    return CommonLoader(
-      child: Scaffold(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: CommonLoader(
+          child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: const CommonAppBar(title: 'Profile Settings'),
-        body: Center(
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(35, 35, 35, 90),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  CircleAvatar(
-                    radius: 55,
-                    backgroundColor: AppColors.white,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image.network(
-                        fit: BoxFit.fill,
-                        FirebaseAuth.instance.currentUser?.photoURL! ?? '',
-                        height: 110,
-                        width: 110,
+              ChangeUserPhotoCard(
+                onChangeAvatarTap: () async {
+                  await Provider.of<ProfileProvider>(context, listen: false)
+                      .updateProfilePicture(context);
+                  setState(() {});
+                },
+              ),
+              const SizedBox(height: 20),
+              FormBuilder(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    FormBuilderTextField(
+                      name: 'userName',
+                      initialValue:
+                          FirebaseAuth.instance.currentUser?.displayName ?? '',
+                      decoration: const InputDecoration(
+                        labelText: 'User Name',
                       ),
                     ),
-                  ),
-                  Positioned(
-                    right: -10,
-                    bottom: -10,
-                    child: Container(
-                      height: 42,
-                      width: 42,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.gray,
-                      ),
-                      child: Material(
-                        color: AppColors.gray,
-                        shape: const CircleBorder(),
-                        child: Ink(
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                          child: IconButton(
-                            onPressed: updateProfilePicture,
-                            icon: const Icon(
-                              Icons.camera_alt_outlined,
-                            ),
-                          ),
-                        ),
+                    const SizedBox(height: 30),
+                    FormBuilderTextField(
+                      name: 'email',
+                      keyboardType: TextInputType.emailAddress,
+                      initialValue:
+                          FirebaseAuth.instance.currentUser?.email ?? '',
+                      decoration: const InputDecoration(
+                        labelText: 'Email',
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 30),
+                    FormBuilderTextField(
+                      name: 'phone',
+                      initialValue:
+                          FirebaseAuth.instance.currentUser?.phoneNumber ?? '',
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                        labelText: 'Phone',
+                        hintText:
+                            FirebaseAuth.instance.currentUser?.phoneNumber ==
+                                    null
+                                ? 'No phone number'
+                                : null,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Spacer(),
+              CustomRoundButton(
+                text: 'Save changes',
+                isActive: true,
+                onTap: () async {
+                  if (_formKey.currentState!.saveAndValidate()) {
+                    await Provider.of<ProfileProvider>(context, listen: false)
+                        .updateUserInfo(
+                      context,
+                      name: _formKey.currentState!.value['userName'],
+                      email: _formKey.currentState!.value['email'],
+                      phoneNumber: _formKey.currentState!.value['phone'],
+                    );
+                  }
+                },
               )
             ],
           ),
         ),
-      ),
+      )),
     );
   }
 }

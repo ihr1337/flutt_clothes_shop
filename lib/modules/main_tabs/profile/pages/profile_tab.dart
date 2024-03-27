@@ -1,15 +1,13 @@
+import 'package:flutt_clothes_shop/providers/profile_provider.dart';
 import 'package:flutter/material.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutt_clothes_shop/common/ui_consts/app_colors.dart';
 import 'package:flutt_clothes_shop/modules/main_tabs/profile/util/card_position_enum.dart';
-import 'package:flutt_clothes_shop/modules/main_tabs/profile/util/profile_page_options_model.dart';
+import 'package:flutt_clothes_shop/modules/main_tabs/profile/util/profile_page_options_enum.dart';
 import 'package:flutt_clothes_shop/modules/main_tabs/profile/widgets/profile_tab_option_card.dart';
 import 'package:flutt_clothes_shop/modules/main_tabs/profile/widgets/user_info_with_settings.dart';
-import 'package:flutt_clothes_shop/providers/loader_provider.dart';
 
 class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
@@ -17,9 +15,9 @@ class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final containerHeight = MediaQuery.sizeOf(context).height / 2;
-    final cardsList = ProfilePageOptionModel.cardsInfoList;
+    const cardsList = ProfileTabOptions.values;
     final cardFunctionsList = [
-      //TODO: complete functionality for profile page
+      //TODO: complete functionality for profile tab
       () {},
       () {},
       () {},
@@ -27,16 +25,11 @@ class ProfileTab extends StatelessWidget {
       () {},
 
       ///Logout function
-      () async {
-        context.read<LoaderProvider>().enableLoader();
-        await Future.delayed(const Duration(milliseconds: 500));
-        await FirebaseAuth.instance.signOut();
-        if (context.mounted) context.go('/login');
-        if (context.mounted) context.read<LoaderProvider>().disableLoader();
-      },
+      () =>
+          Provider.of<ProfileProvider>(context, listen: false).logOut(context),
     ];
 
-    CardPosition defineCardPosition(List cardList, card) {
+    CardPosition? defineCardPosition(List cardList, card) {
       final index = cardList.indexOf(card);
 
       if (index == 0) {
@@ -46,7 +39,7 @@ class ProfileTab extends StatelessWidget {
       } else if (index == 5) {
         return CardPosition.isLast;
       } else {
-        return CardPosition.isLast;
+        return null;
       }
     }
 
@@ -70,20 +63,17 @@ class ProfileTab extends StatelessWidget {
                 ],
               ),
               child: Column(
-                children: cardsList
-                    .map((e) => Column(
-                          children: [
-                            ProfileTabOptionCard(
-                              cardProps: e,
-                              cardPosition: defineCardPosition(cardsList, e),
-                              onCardTap:
-                                  cardFunctionsList[cardsList.indexOf(e)],
-                              cardHeight: containerHeight / 6 - 1,
-                            ),
-                            if (cardsList.last != e) const Divider(height: 1)
-                          ],
-                        ))
-                    .toList(),
+                children: [
+                  for (final card in cardsList) ...[
+                    ProfileTabOptionCard(
+                      cardPosition: defineCardPosition(cardsList, card)!,
+                      cardHeight: (containerHeight / 6) - 1,
+                      cardProps: card,
+                      onCardTap: cardFunctionsList[cardsList.indexOf(card)],
+                    ),
+                    if (card != cardsList.last) const Divider(height: 1)
+                  ]
+                ],
               ),
             ),
           ],
